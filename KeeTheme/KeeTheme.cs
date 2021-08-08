@@ -11,6 +11,7 @@ using KeePass.UI;
 using KeePassLib.Utility;
 using KeeTheme.Decorators;
 using KeeTheme.Theme;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace KeeTheme
 {
@@ -91,10 +92,10 @@ namespace KeeTheme
 			var form = control as Form;
 			if (form != null) Apply(form);
 
-			var button = control as Button;
+			var button = control as System.Windows.Forms.Button;
 			if (button != null) Apply(button);
 
-			var treeView = control as TreeView;
+			var treeView = control as System.Windows.Forms.TreeView;
 			if (treeView != null) Apply(treeView);
 
 			var richTextBox = control as RichTextBox;
@@ -103,7 +104,7 @@ namespace KeeTheme
 			var linkLabel = control as LinkLabel;
 			if (linkLabel != null) Apply(linkLabel);
 
-			var listView = control as ListView;
+			var listView = control as System.Windows.Forms.ListView;
 			if (listView != null) Apply(listView);
 
 			var secureTextBoxEx = control as SecureTextBoxEx;
@@ -130,10 +131,10 @@ namespace KeeTheme
 			var qualityProgressBar = control as QualityProgressBar;
 			if (qualityProgressBar != null) Apply(qualityProgressBar);
 
-			var comboBox = control as ComboBox;
+			var comboBox = control as System.Windows.Forms.ComboBox;
 			if (comboBox != null) Apply(comboBox);
 
-			var checkBox = control as CheckBox;
+			var checkBox = control as System.Windows.Forms.CheckBox;
 			if (checkBox != null) Apply(checkBox);
 
 			OverrideResetBackground(control);
@@ -166,7 +167,7 @@ namespace KeeTheme
 			checkBox.FlatAppearance.MouseOverBackColor = checkBoxLook.MouseOverBackColor;
 		}
 
-		private void Apply(ComboBox comboBox)
+		private void Apply(System.Windows.Forms.ComboBox comboBox)
 		{
 			if (comboBox.DropDownStyle == ComboBoxStyle.DropDownList)
 				comboBox.FlatStyle = FlatStyle.Popup;
@@ -310,7 +311,7 @@ namespace KeeTheme
 			return Enumerable.Empty<Control>();
 		}
 
-		private void Apply(Button button)
+		private void Apply(System.Windows.Forms.Button button)
 		{
 			button.BackColor = _theme.Button.BackColor;
 			button.ForeColor = _theme.Button.ForeColor;
@@ -331,7 +332,7 @@ namespace KeeTheme
 
 		private void HandleButtonEnabledChanged(object sender, EventArgs e)
 		{
-			var button = (Button) sender;
+			var button = (System.Windows.Forms.Button) sender;
 			if (button.Enabled)
 			{
 				button.Paint -= HandleButtonPaint;
@@ -344,7 +345,7 @@ namespace KeeTheme
 
 		private void HandleButtonPaint(object sender, PaintEventArgs e)
 		{
-			var button = (Button)sender;
+			var button = (System.Windows.Forms.Button)sender;
 			var disabledForeColor = ControlPaint.Dark(_theme.Button.ForeColor, 0.25f);
 			if (button.Enabled)
 			{
@@ -359,7 +360,7 @@ namespace KeeTheme
 			linkLabel.LinkColor = _theme.LinkLabel.LinkColor;
 		}
 
-		private void Apply(TreeView treeView)
+		private void Apply(System.Windows.Forms.TreeView treeView)
 		{
 			treeView.BorderStyle = _theme.TreeView.BorderStyle;
 			treeView.BackColor = _theme.TreeView.BackColor;
@@ -385,6 +386,7 @@ namespace KeeTheme
 			try
 			{
 				SetWindowTheme(hWnd, enable ? "" : "explorer", null);
+				SetWindowTheme(hWnd, "DarkMode_Explorer", null);
 			}
 			catch (Exception)
 			{
@@ -429,7 +431,7 @@ namespace KeeTheme
 
 		}
 
-		private void Apply(ListView listView)
+		private void Apply(System.Windows.Forms.ListView listView)
 		{
 			if (ObjectListViewDecorator.CanDecorate(listView))
 			{
@@ -441,6 +443,7 @@ namespace KeeTheme
 			                ?? new ListViewDecorator(listView , _theme);
 
 			decorator.EnableTheme(_enabled, _theme);
+			TrySetWindowTheme(listView.Handle, _enabled);
 		}
 
 	}
